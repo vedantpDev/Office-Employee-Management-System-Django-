@@ -1,0 +1,23 @@
+python3 startproject <project_name>
+cd <project_name>
+python3 startapp <ap_name>
+push app name inside "INSTALLED APP"
+add urls of the app 
+in app url import views, so that we can access the functions of the app.
+after creating model, run these 2 command 
+    python3 manage.py makemigrations
+    python3 manage.py migrate
+register your models in admin.py
+    import all model from the models.py 
+    admin.site.register(<model_name>)
+when we want to access admin, we have to create super user
+    python3 manage.py createsuperuser
+After this when you enter data into admin database, add __str__ function,
+    otherwise it will "Object"
+create HTML files, add urls, etc...
+
+Flow of the Request : 
+1} manage.py -> setting
+2} setting -> ROOT_URLCONF
+3} urls -> urlspatterns
+4} app.urls -> urlspatterns
