@@ -17,11 +17,12 @@
       <h1>Add an Employee</h1>
       <hr />
       <div class="container">
-        <form action="/add_emp" method="post">
+        <form action="http://127.0.0.1:8000/add_emp" method="post">
           {% csrf_token %}
           <div class="mb-3">
             <label for="first_name" class="form-label">First Name</label>
             <input
+              name="first_name"
               value="{{first_name}}"
               type="text"
               class="form-control"
@@ -31,6 +32,7 @@
           <div class="mb-3">
             <label for="last_name" class="form-label">Last Name</label>
             <input
+              name="last_name"
               value="{{last_name}}"
               type="text"
               class="form-control"
@@ -40,6 +42,7 @@
           <div class="mb-3">
             <label for="salary" class="form-label">Salary</label>
             <input
+              name="salary"
               value="{{salary}}"
               type="number"
               class="form-control"
@@ -49,8 +52,9 @@
           <div class="mb-3">
             <label for="dept" class="form-label">Department</label>
             <input
+              name="dept"
               value="{{dept}}"
-              type="text"
+              type="number"
               class="form-control"
               id="dept"
             />
@@ -58,6 +62,7 @@
           <div class="mb-3">
             <label for="role" class="form-label">Role</label>
             <input
+              name="role"
               value="{{role}}"
               type="number"
               class="form-control"
@@ -67,6 +72,7 @@
           <div class="mb-3">
             <label for="phone" class="form-label">Phone Number</label>
             <input
+              name="phone"
               value="{{phone}}"
               type="number"
               class="form-control"
@@ -76,6 +82,7 @@
           <div class="mb-3">
             <label for="bonus" class="form-label">Bonus</label>
             <input
+              name="bonus"
               value="{{bonus}}"
               type="number"
               class="form-control"

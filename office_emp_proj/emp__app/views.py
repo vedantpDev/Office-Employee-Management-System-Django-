@@ -1,6 +1,8 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import Employee, Role, Department
 from datetime import datetime
+
+from django.db.models import Q
 
 # Create your views here.
 
@@ -15,7 +17,6 @@ def all_emp(request):
     context = {
         'emps': emps
     }
-    print(context)
     return render(request, 'view_all_emp.html', context)
 
 
@@ -31,16 +32,49 @@ def add_emp(request):
         new_emp = Employee(first_name=first_name,
                            last_name=last_name, salary=salary, dept_id=dept, role_id=role, phone=phone, bonus=bonus, hire_date=datetime.now())
         new_emp.save()
-        return HttpResponse('Employee Added')
+        return redirect('/all_emp')
     elif request.method == 'GET':
         return render(request, 'add_emp.html')
     else:
         return HttpResponse('Something went wrong')
 
 
-def remove_emp(request):
-    return render(request, 'remove_emp.html')
+def remove_emp(request, emp_id=0):
+    emps = Employee.objects.all()
+    context = {
+        'emps': emps
+    }
+    if emp_id:
+        try:
+            emp_to_be_removed = Employee.objects.get(id=emp_id)
+            emp_to_be_removed.delete()
+            return redirect('/all_emp')
+        except:
+            return HttpResponse('Enter ID')
+
+    return render(request, 'remove_emp.html', context)
 
 
 def filter_emp(request):
-    return render(request, 'filter_emp.html')
+    if request.method == 'POST':
+        name = request.POST['name']
+        dept = request.POST['dept']
+        role = request.POST['role']
+        emps = Employee.objects.all()
+        if name:
+            # Q use for or & and conditions
+            # __icontains -> dont need case sensitive || filter alphabets from the whole name
+            emps = emps.filter(Q(first_name__icontains=name)
+                               | Q(last_name__icontains=name))
+        if name:
+            emps = emps.filter(dept__name__icontains=dept)
+        if name:
+            emps = emps.filter(role__name__icontains=role)
+        context = {
+            'emps': emps
+        }
+        return render(request, 'view_all_emp.html', context)
+    elif request.method == 'GET':
+        return render(request, 'filter_emp.html')
+    else:
+        return HttpResponse("Not Found")
